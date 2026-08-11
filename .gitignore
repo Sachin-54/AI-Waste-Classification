@@ -8,9 +8,6 @@ venv/
 env/
 .venv/
 
-# Uploaded images
-uploads/*
-!uploads/.gitkeep
 
 # Jupyter Notebook
 .ipynb_checkpoints/
