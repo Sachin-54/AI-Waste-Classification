@@ -1,0 +1,433 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #f3f6f5;
+    overflow: hidden;
+    position: relative;
+    padding: 20px;
+}
+
+/* ===========================
+   BACKGROUND BLOBS
+=========================== */
+
+.background::before,
+.background::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(120px);
+    z-index: -1;
+}
+
+.background::before {
+    width: 350px;
+    height: 350px;
+    background: #d8f3ec;
+    top: -120px;
+    left: -100px;
+}
+
+.background::after {
+    width: 400px;
+    height: 400px;
+    background: #dfe7fd;
+    right: -120px;
+    bottom: -120px;
+}
+
+/* ===========================
+   LOGIN CONTAINER
+=========================== */
+
+.login-container {
+    width: 100%;
+    max-width: 450px;
+    padding: 10px;
+}
+
+/* ===========================
+   BACK BUTTON
+=========================== */
+
+.back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    color: #0e9f8e;
+    font-weight: 600;
+    margin-bottom: 16px;
+}
+
+.back-btn:hover {
+    color: #0b7f71;
+}
+
+/* ===========================
+   CARD
+=========================== */
+
+.login-card {
+    background: white;
+    border-radius: 25px;
+    padding: 32px 30px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, .08);
+    border: 1px solid rgba(0, 0, 0, .08);
+}
+
+.login-card img{
+    display: block;
+    width: 50px;
+    height: 50px;
+    margin: auto;
+}
+/* ===========================
+   LOGO
+=========================== */
+
+.logo {
+    width: 70px;
+    display: block;
+    margin: 0 auto 16px;
+}
+
+.login-card h1 {
+    text-align: center;
+    margin-bottom: 6px;
+    color: #1e2a32;
+    font-size: 1.6rem;
+}
+
+.login-card p {
+    text-align: center;
+    color: #666;
+    margin-bottom: 24px;
+    font-size: 0.95rem;
+}
+
+#forgotEmail{
+     width: 100%;
+    height: 50px;
+    padding: 0 5px;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    outline: none;
+    font-size: 15px;
+    background: #fff;
+    transition: 0.3s;
+    margin-bottom: 15px;
+}
+
+/* ===========================
+   INPUTS - COMPLETELY FIXED
+=========================== */
+
+.input-box {
+    position: relative;
+    width: 100%;
+    margin-bottom: 18px;
+}
+
+.input-box input {
+    width: 100%;
+    height: 50px;
+    padding: 0 45px;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    outline: none;
+    font-size: 15px;
+    background: #fff;
+    transition: 0.3s;
+}
+
+.input-box input:focus {
+    border-color: #0e9f8e;
+}
+
+.input-box .input-icon,
+.input-box .toggle-password {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 18px;
+    color: #888;
+    line-height: 1;
+}
+
+.input-box .input-icon {
+    left: 15px;
+    pointer-events: none;
+}
+
+.input-box .toggle-password {
+    right: 15px;
+    cursor: pointer;
+}
+
+.input-box .toggle-password:hover {
+    color: #0b7f71;
+}
+
+/* ===========================
+   OPTIONS
+=========================== */
+
+.options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    font-size: 14px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.options label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    color: #555;
+}
+
+.options label input[type="checkbox"] {
+    width: 17px;
+    height: 17px;
+    cursor: pointer;
+    accent-color: #0e9f8e;
+}
+
+.options a {
+    text-decoration: none;
+    color: #0e9f8e;
+    white-space: nowrap;
+}
+
+.options a:hover {
+    text-decoration: underline;
+}
+
+/* ===========================
+   BUTTON
+=========================== */
+
+button {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 50px;
+    background: #0e9f8e;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: .3s;
+}
+
+button:hover {
+    background: #0b7f71;
+}
+
+/* ===========================
+   REGISTER
+=========================== */
+
+.register {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 15px;
+    color: #555;
+}
+
+.register a {
+    color: #0e9f8e;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.register a:hover {
+    text-decoration: underline;
+}
+
+/* ===========================
+   RESPONSIVE
+=========================== */
+
+@media(max-width: 500px) {
+    body {
+        padding: 12px;
+    }
+
+    .login-container {
+        padding: 0;
+        max-width: 100%;
+    }
+
+    .login-card {
+        padding: 24px 18px;
+        border-radius: 20px;
+    }
+
+    .login-card h1 {
+        font-size: 1.4rem;
+    }
+
+    .login-card p {
+        font-size: 0.9rem;
+        margin-bottom: 20px;
+    }
+
+    .options {
+        flex-direction: column;
+        gap: 10px;
+        align-items: flex-start;
+        margin-bottom: 18px;
+    }
+
+    .logo {
+        width: 60px;
+        margin-bottom: 12px;
+    }
+
+    .input-box {
+        margin-bottom: 14px;
+    }
+
+    .input-box input {
+        padding: 12px 40px 12px 40px;
+        font-size: 14px;
+    }
+
+    .input-box .input-icon {
+        left: 14px;
+        font-size: 16px;
+    }
+
+    .input-box .toggle-password {
+        right: 14px;
+        font-size: 16px;
+    }
+
+    button {
+        padding: 13px;
+        font-size: 15px;
+    }
+
+    .register {
+        margin-top: 16px;
+        font-size: 14px;
+    }
+
+    .back-btn {
+        margin-bottom: 12px;
+        font-size: 0.9rem;
+    }
+}
+
+/* Extra small screens */
+@media(max-width: 400px) {
+    .login-card {
+        padding: 20px 14px;
+    }
+
+    .login-card h1 {
+        font-size: 1.2rem;
+    }
+
+    .login-card p {
+        font-size: 0.85rem;
+        margin-bottom: 16px;
+    }
+
+    .input-box input {
+        padding: 10px 36px 10px 36px;
+        font-size: 13px;
+    }
+
+    .input-box .input-icon {
+        left: 12px;
+        font-size: 14px;
+    }
+
+    .input-box .toggle-password {
+        right: 12px;
+        font-size: 14px;
+    }
+
+    .options {
+        font-size: 13px;
+    }
+
+    button {
+        padding: 12px;
+        font-size: 14px;
+    }
+
+    .register {
+        font-size: 13px;
+    }
+}
+
+/* For very short screens */
+@media(max-height: 700px) {
+    .login-card {
+        padding: 20px 20px;
+    }
+
+    .logo {
+        width: 50px;
+        margin-bottom: 10px;
+    }
+
+    .login-card h1 {
+        font-size: 1.3rem;
+        margin-bottom: 4px;
+    }
+
+    .login-card p {
+        margin-bottom: 16px;
+        font-size: 0.85rem;
+    }
+
+    .input-box {
+        margin-bottom: 12px;
+    }
+
+    .input-box input {
+        padding: 10px 40px 10px 40px;
+        font-size: 14px;
+    }
+
+    .options {
+        margin-bottom: 14px;
+    }
+
+    button {
+        padding: 11px;
+        font-size: 14px;
+    }
+
+    .register {
+        margin-top: 14px;
+        font-size: 13px;
+    }
+
+    .back-btn {
+        margin-bottom: 10px;
+    }
+}

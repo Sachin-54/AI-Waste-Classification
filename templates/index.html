@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>TerraShort</title>
+
+    <link rel="shortcut icon" href="img/logo.png" type="image/x-icon">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+</head>
+
+<body>
+
+    <!-- Background -->
+    <div class="blob blob1"></div>
+    <div class="blob blob2"></div>
+    <div class="blob blob3"></div>
+
+    <!-- ================= NAVBAR ================= -->
+
+    <nav>
+
+        <div class="logo">
+            <a href="#home"><img src="{{ url_for('static', filename='img/logo.png') }}" alt="TerraSort Logo"></a>
+            TerraSort
+        </div>
+
+        <!-- Mobile Menu Button -->
+        <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Open menu">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+
+        <ul>
+
+            <li><a href="#home" class="active">Home</a></li>
+
+            <li id="classifyNav">
+                <a href="#classify">Classify</a>
+            </li>
+
+            <li><a href="#about">About</a></li>
+
+            <li><a href="#faq">FAQ</a></li>
+
+            <li><a href="#contact">Contact</a></li>
+
+        </ul>
+
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+            <i class="fa-solid fa-moon"></i>
+        </button>
+
+        <div class="user-menu">
+
+            <div class="user-menu">
+
+                <button class="user-icon" id="userBtn">
+                    <i class="fa-solid fa-user"></i>
+                </button>
+
+                <div class="dropdown-menu" id="userDropdown">
+
+                    <div id="guestMenu">
+
+                        <a href="login.html">
+                            <i class="fa-solid fa-right-to-bracket"></i>
+                            Login
+                        </a>
+
+                        <a href="register.html">
+                            <i class="fa-solid fa-user-plus"></i>
+                            Register
+                        </a>
+
+                    </div>
+
+                    <div id="profileMenu">
+
+                        <div class="profile-info">
+
+                            <h4 id="userName"></h4>
+
+                            <p id="userEmail"></p>
+
+                        </div>
+
+                        <button id="logoutBtn">
+                            Logout
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+    </nav>
+
+
+
+    <!-- ================= HOME ================= -->
+
+    <section id="home" class="hero">
+
+        <div class="glass">
+
+
+            <h1>Know What You Can Recycle</h1>
+
+            <p>
+
+                Snap or upload a photo of any waste item — the AI identifies the material in seconds and tells you
+                exactly which bin it belongs in, so nothing recyclable ends up in landfill.
+
+            </p>
+
+            <p style="font-size: 15px;"> 6 waste categories  •  Results in under 2 seconds  •  Works with any photo</p>
+
+            <div class="buttons">
+
+                <a href="#classify" class="btn">
+                    Classify My Waste
+                </a>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ================= CLASSIFY ================= -->
+
+    <section id="classify" class="upload-section hidden-upload">
+
+        <div class="upload-card">
+
+            <h1>Upload Waste Image</h1>
+
+            <p>
+
+                Select an image and let the AI identify the waste category.
+
+            </p>
+
+            <div class="upload-box">
+
+                <div id="uploadContent">
+
+                    <!-- <i class="fa-solid fa-cloud-arrow-up"></i> -->
+
+                    <h3>Drag & Drop Image Here</h3>
+
+                    <p>or</p>
+
+                    <input type="file" id="fileInput" accept="image/*" hidden>
+
+                    <!-- <button type="button" onclick="document.getElementById('fileInput').click()">
+                        Choose Image
+                    </button> -->
+
+                    <button type="button" id="chooseImageBtn">
+                        Choose Image
+                    </button>
+
+                    <p id="fileName">No file selected</p>
+                    <p style="font-size: 13px;">Upload a clear, well-lit photo of a single item. Supported formats: JPG,
+                        PNG, or
+                        WEBP — max size 5MB.</p>
+
+
+                </div>
+
+                <div class="preview-container">
+
+                    <button type="button" id="removeImage" class="remove-image-btn"
+                        aria-label="Remove image">&times;</button>
+
+                    <img id="preview" alt="Preview">
+
+                </div>
+
+            </div>
+
+            <button id="predictBtn" class="predict-btn">
+
+                Predict Waste Type
+
+            </button>
+
+            <div id="resultCard" class="result-card">
+
+                <h2>Prediction</h2>
+
+                <h3 id="predictionText">-</h3>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ================= ABOUT ================= -->
+
+    <section id="about" class="about-section">
+
+        <div class="glass-card">
+
+            <h1>About Our Project</h1>
+
+            <p class="intro">
+
+                The <strong>AI-Based Waste Classification System</strong> is an intelligent
+                recycling solution that uses a <strong>Support Vector Machine (SVM)</strong>
+                model to classify waste images into different categories.
+                By simply uploading an image, users receive an instant prediction,
+                helping promote proper waste segregation and a cleaner environment.
+
+            </p>
+
+            <div class="features">
+
+                <div class="feature-box">
+
+                    <i class="fas fa-upload"></i>
+
+                    <h3>Upload</h3>
+
+                    <p>
+
+                        Upload your waste image.
+
+                    </p>
+
+                </div>
+
+                <div class="feature-box">
+
+                    <i class="fas fa-brain"></i>
+
+                    <h3>AI Prediction</h3>
+
+                    <p>
+
+                        SVM predicts the waste category.
+
+                    </p>
+
+                </div>
+
+                <div class="feature-box">
+
+                    <i class="fas fa-recycle"></i>
+
+                    <h3>Recycle</h3>
+
+                    <p>
+
+                        Dispose waste correctly.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+            <h2 class="category-title">
+
+                Waste Categories
+
+            </h2>
+
+            <div class="category-grid">
+
+                <div class="category"
+                    onclick="showInfo('Glass','Glass waste includes bottles, jars, windows, and containers. Glass can be recycled many times without losing quality.')">
+
+                    <i class="fas fa-wine-bottle"></i>
+
+                    <p>Glass</p>
+
+                </div>
+
+                <div class="category"
+                    onclick="showInfo('Paper','Paper waste includes newspapers, magazines, office paper, and notebooks. Keep paper dry for recycling.')">
+
+                    <i class="fas fa-newspaper"></i>
+
+                    <p>Paper</p>
+
+                </div>
+
+                <div class="category"
+                    onclick="showInfo('Cardboard','Cardboard includes shipping boxes and packaging cartons. Flatten boxes before recycling.')">
+
+                    <i class="fas fa-box"></i>
+
+                    <p>Cardboard</p>
+
+                </div>
+
+                <div class="category"
+                    onclick="showInfo('Plastic','Plastic waste includes bottles, containers, bags, and packaging. Clean plastics before recycling.')">
+
+                    <i class="fas fa-prescription-bottle"></i>
+
+                    <p>Plastic</p>
+
+                </div>
+
+                <div class="category"
+                    onclick="showInfo('Metal','Metal waste includes cans, aluminum foil, and steel containers. Metals are highly recyclable.')">
+
+                    <i class="fas fa-cog"></i>
+
+                    <p>Metal</p>
+
+                </div>
+
+                <div class="category"
+                    onclick="showInfo('Trash','Trash includes non-recyclable waste like diapers, broken ceramics, and contaminated materials.')">
+
+                    <i class="fas fa-trash"></i>
+
+                    <p>Trash</p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- Popup -->
+
+    <div id="modalOverlay" class="modal-overlay" onclick="closeInfo()">
+
+    </div>
+
+    <div id="infoBox" class="popup-box">
+
+        <span class="close-btn" onclick="closeInfo()">
+
+            &times;
+
+        </span>
+
+        <h3 id="infoTitle"></h3>
+
+        <p id="infoText"></p>
+
+    </div>
+
+    <section class="faq-section" id="faq">
+
+
+        <div class="faq-container">
+            <h2>FAQs</h2>
+
+
+            <div class="faq-item">
+
+                <button class="faq-question">
+
+                    <span>What types of waste can TerraSort identify?</span>
+
+                    <i class="fa-solid fa-chevron-down"></i>
+
+                </button>
+
+                <div class="faq-answer">
+
+                    <p>
+                        TerraSort identifies and categorizes waste into primary categories, including:
+
+                        Organic / Biodegradable: Food scraps, fruit peels, leaves, and compostable matter.
+
+                        Recyclable Material: Plastics (PET bottles, containers), paper, cardboard, glass bottles, and
+                        metal cans.
+
+                        Non-Recyclable / Hazardous: Household trash, styrofoam, batteries, and electronic waste
+                        (e-waste).
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="faq-item">
+
+                <button class="faq-question">
+
+                    <span>How accurate is the prediction?</span>
+
+                    <i class="fa-solid fa-chevron-down"></i>
+
+                </button>
+
+                <div class="faq-answer">
+
+                    <p>
+                        The AI model typically achieves 85% to 95%+ accuracy when images are captured in good lighting
+                        with a clear, single item or well-defined target object. Accuracy may vary slightly depending on
+                        image background clutter, shadows, or item overlapping.
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="faq-item">
+
+                <button class="faq-question">
+
+                    <span>Which image formats are supported?</span>
+
+                    <i class="fa-solid fa-chevron-down"></i>
+
+                </button>
+
+                <div class="faq-answer">
+
+                    <p>
+                        JPG / JPEG
+
+                        PNG
+
+                        WEBP
+                        (Maximum recommended image file size: 5 MB to 10 MB) </p>
+
+                </div>
+
+            </div>
+
+            <div class="faq-item">
+
+                <button class="faq-question">
+
+                    <span>Does TerraSort store uploaded images?</span>
+
+                    <i class="fa-solid fa-chevron-down"></i>
+
+                </button>
+
+                <div class="faq-answer">
+
+                    <p>
+                        No. Uploaded images are processed strictly for real-time inference and class identification.
+                        Once prediction results are returned, images are automatically removed from temporary server
+                        memory to ensure user privacy, unless users explicitly consent to saving images for model
+                        retraining.
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="faq-item">
+
+                <button class="faq-question">
+
+                    <span>Can I use TerraSort on mobile devices?</span>
+
+                    <i class="fa-solid fa-chevron-down"></i>
+
+                </button>
+
+                <div class="faq-answer">
+
+                    <p>
+                        Yes. TerraSort is fully responsive and works on desktops,
+                        tablets and smartphones.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ================= CONTACT ================= -->
+
+    <section id="contact" class="contact-section">
+
+        <div class="contact-container">
+
+            <div class="contact-info">
+
+                <h1>Contact Us</h1>
+
+                <p>
+
+                    Have questions? Contact us anytime.
+
+                </p>
+
+                <div class="info-box">
+
+                    <i class="fas fa-envelope"></i>
+
+                    support@wasteclassifier.com
+
+                </div>
+
+                <div class="info-box">
+
+                    <i class="fas fa-phone"></i>
+
+                    +91 9876543210
+
+                </div>
+
+                <div class="info-box">
+
+                    <i class="fas fa-location-dot"></i>
+
+                    Tamil Nadu, India
+
+                </div>
+
+            </div>
+
+            <div class="contact-form">
+
+                <h2>Send Message</h2>
+
+                <form>
+
+                    <input type="email" placeholder="Your Email">
+
+                    <div class="field-group">
+                        <!-- <label for="waste-type">Select the waste</label> -->
+                        <select name="waste-type" id="waste-type" required>
+                            <option value="" disabled selected hidden>Choose waste type...</option>
+                            <option value="Glass">Glass</option>
+                            <option value="Paper">Paper</option>
+                            <option value="Cardboard">Cardboard</option>
+                            <option value="Plastic">Plastic</option>
+                            <option value="Metal">Metal</option>
+                            <option value="Trash">Trash</option>
+                        </select>
+                    </div>
+
+                    <textarea rows="5" placeholder="Message"></textarea>
+
+                    <button>
+
+                        Send
+
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- Footer -->
+
+    <footer>
+
+        © 2026 All Rights Reserved TerraSort | Designed by me
+
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+</body>
+
+</html>
