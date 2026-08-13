@@ -212,6 +212,18 @@ margin: 10px 12px 0 !important; */
 
 }
 
+.logo > span {
+    font-size: 36px;
+    font-weight: 700;
+    letter-spacing: -1px;
+
+    color: #000;
+}
+
+.logo > span span {
+    color: #69c174;
+}
+
 .logo i {
 
     color: var(--accent);
@@ -880,6 +892,166 @@ section {
     color: var(--text-primary);
 
 }
+
+/* ===============================
+   CATEGORY INFO POPUP
+================================ */
+
+.info-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.9);
+
+    width: 650px;
+    max-width: 90%;
+
+    display: flex;
+    align-items: stretch;
+
+    background: #172323;
+    border: 1px solid rgba(105, 193, 116, 0.15);
+    border-radius: 20px;
+
+    overflow: hidden;
+
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+
+    opacity: 0;
+    visibility: hidden;
+
+    transition: all 0.3s ease;
+
+    z-index: 9999;
+}
+
+
+/* SHOW POPUP */
+
+.info-popup.show {
+    opacity: 1;
+    visibility: visible;
+
+    transform: translate(-50%, -50%) scale(1);
+}
+
+
+/* ===============================
+   LEFT IMAGE
+================================ */
+
+.info-image {
+    width: 45%;
+    min-height: 260px;
+    overflow: hidden;
+}
+
+.info-image img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    display: block;
+}
+
+
+/* ===============================
+   RIGHT CONTENT
+================================ */
+
+.info-content {
+    width: 55%;
+    padding: 35px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.info-content h3 {
+    margin: 0 0 15px;
+
+    font-size: 26px;
+    font-weight: 700;
+
+    color: #f2f5f4;
+}
+
+.info-content p {
+    margin: 0;
+
+    font-size: 15px;
+    line-height: 1.7;
+
+    color: #b9c6c3;
+}
+
+
+/* ===============================
+   CLOSE BUTTON
+================================ */
+
+.info-close {
+    position: absolute;
+
+    top: 12px;
+    right: 15px;
+
+    width: 32px;
+    height: 32px;
+
+    border: none;
+    border-radius: 50%;
+
+    background: rgba(0, 0, 0, 0.35);
+
+    color: #ffffff;
+
+    font-size: 24px;
+    line-height: 30px;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+}
+
+.info-close:hover {
+    background: #69c174;
+    color: #102020;
+}
+
+
+/* ===============================
+   MOBILE
+================================ */
+
+@media (max-width: 600px) {
+
+    .info-popup {
+        width: 90%;
+        flex-direction: column;
+    }
+
+    .info-image {
+        width: 100%;
+        height: 200px;
+        min-height: 200px;
+    }
+
+    .info-content {
+        width: 100%;
+        padding: 25px;
+    }
+
+    .info-content h3 {
+        font-size: 22px;
+    }
+
+    .info-content p {
+        font-size: 14px;
+    }
+}
 /* ==========================
    FAQ Section
 ========================== */
@@ -1292,15 +1464,398 @@ section {
    FOOTER
 =========================== */
 
-footer {
+/* =========================
+   FOOTER
+========================= */
+
+.footer {
+    width: 100%;
+    background: #0b1715;
+    color: #e5eeee;
+    margin-top: 0;
+}
+
+
+/* =========================
+   FOOTER CONTAINER
+========================= */
+
+.footer-container {
+    width: 90%;
+    max-width: 1250px;
+    margin: auto;
+
+    display: grid;
+    grid-template-columns: 1.4fr 1.15fr 1fr 1.15fr;
+    gap: 70px;
+
+    padding: 65px 0 60px;
+}
+
+
+/* =========================
+   FOOTER COLUMNS
+========================= */
+
+.footer-column {
+    min-width: 0;
+}
+
+.footer-column h3 {
+    position: relative;
+
+    font-size: 21px;
+    font-weight: 600;
+
+    color: #f1f5f4;
+
+    margin-bottom: 35px;
+    padding-bottom: 12px;
+}
+
+
+/* Small green line below heading */
+
+.footer-column h3::after {
+    content: "";
+
+    position: absolute;
+    left: 0;
+    bottom: 0;
+
+    width: 48px;
+    height: 3px;
+
+    background: #69c174;
+    border-radius: 5px;
+}
+
+
+/* =========================
+   LOGO
+========================= */
+
+.footer-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    margin-bottom: 25px;
+}
+
+.footer-logo img {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+    display: block;
+    flex-shrink: 0;
+}
+
+.footer-logo > span {
+    font-size: 36px;
+    font-weight: 700;
+    letter-spacing: -1px;
+
+    color: #f2f5f4;
+}
+
+.footer-logo > span span {
+    color: #69c174;
+}
+
+
+/* =========================
+   ABOUT TEXT
+========================= */
+
+.footer-about > p {
+    max-width: 390px;
+
+    font-size: 15px;
+    line-height: 1.9;
+
+    color: #b8c5c2;
+
+    margin-bottom: 25px;
+}
+
+
+/* =========================
+   TAGLINE
+========================= */
+
+.footer-tagline {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    color: #69c174;
+
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.footer-tagline i {
+    font-size: 16px;
+}
+
+
+/* =========================
+   ADDRESS / CONTACT
+========================= */
+
+.footer-line {
+    display: flex;
+    align-items: flex-start;
+
+    gap: 15px;
+
+    margin-bottom: 22px;
+}
+
+.footer-line i {
+    width: 25px;
+
+    color: #69c174;
+
+    font-size: 19px;
+
+    margin-top: 3px;
+}
+
+.footer-line p {
+    margin: 0;
+
+    color: #c1cdca;
+
+    font-size: 15px;
+    line-height: 1.8;
+}
+
+
+/* =========================
+   QUICK LINKS
+========================= */
+
+.footer-links {
+    list-style: none;
+
+    padding: 0;
+    margin: 0;
+}
+
+.footer-links li {
+    margin-bottom: 18px;
+}
+
+.footer-links a {
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    color: #c1cdca;
+
+    text-decoration: none;
+
+    font-size: 15px;
+
+    transition: 0.3s ease;
+}
+
+.footer-links a i {
+    color: #69c174;
+
+    font-size: 11px;
+
+    transition: 0.3s ease;
+}
+
+.footer-links a:hover {
+    color: #69c174;
+
+    transform: translateX(5px);
+}
+
+.footer-links a:hover i {
+    transform: translateX(3px);
+}
+
+
+/* =========================
+   SOCIAL LINKS
+========================= */
+
+.social-links {
+    display: flex;
+    align-items: center;
+
+    gap: 14px;
+
+    margin-bottom: 28px;
+}
+
+.social {
+    width: 55px;
+    height: 55px;
+
+    border: 1px solid #394744;
+
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #e7eeee;
+
+    text-decoration: none;
+
+    font-size: 20px;
+
+    transition: 0.3s ease;
+}
+
+
+/* GitHub */
+
+.social.github:hover {
+    background: #24292e;
+    border-color: #24292e;
+    color: white;
+
+    transform: translateY(-4px);
+}
+
+
+/* LinkedIn */
+
+.social.linkedin:hover {
+    background: #0077b5;
+    border-color: #0077b5;
+    color: white;
+
+    transform: translateY(-4px);
+}
+
+
+/* Instagram */
+
+.social.instagram:hover {
+    background: #e1306c;
+    border-color: #e1306c;
+    color: white;
+
+    transform: translateY(-4px);
+}
+
+
+/* Email */
+
+.social.email:hover {
+    background: #69c174;
+    border-color: #69c174;
+    color: white;
+
+    transform: translateY(-4px);
+}
+
+
+/* =========================
+   SOCIAL DESCRIPTION
+========================= */
+
+.social-text {
+    max-width: 300px;
+
+    color: #aebbb8;
+
+    font-size: 14px;
+    line-height: 1.8;
+
+    margin: 0;
+}
+
+
+/* =========================
+   FOOTER BOTTOM
+========================= */
+
+.footer-bottom {
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+
+    background: #101d1b;
 
     text-align: center;
 
-    padding: 35px;
+    padding: 28px 20px;
+}
 
-    color: var(--text-muted);
+.footer-bottom p {
+    margin: 0;
+
+    color: #c0cbc9;
 
     font-size: 14px;
+}
+
+.footer-bottom span {
+    margin: 0 7px;
+
+    color: #69c174;
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 1000px) {
+
+    .footer-container {
+        grid-template-columns: 1fr 1fr;
+
+        gap: 50px;
+
+        padding: 55px 0;
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .footer-container {
+        width: 88%;
+
+        grid-template-columns: 1fr;
+
+        gap: 40px;
+
+        padding: 45px 0;
+    }
+
+    .footer-logo > span {
+        font-size: 30px;
+    }
+
+    .footer-logo img {
+        width: 48px;
+        height: 48px;
+    }
+
+    .footer-column h3 {
+        margin-bottom: 25px;
+    }
+
+    .footer-bottom {
+        padding: 22px 15px;
+    }
+
+    .footer-bottom p {
+        font-size: 12px;
+        line-height: 1.7;
+    }
 
 }
 
@@ -2513,6 +3068,21 @@ body.dark-mode .profile-info h4 {
 
 body.dark-mode .profile-info p {
     color: #aebbb8;
+}
+
+/* ===============================
+   LOGO - DARK MODE
+================================ */
+
+.dark-mode .logo > span {
+    font-size: 36px;
+    font-weight: 700;
+    letter-spacing: -1px;
+    color: #f2f5f4;
+}
+
+.dark-mode .logo > span span {
+    color: #69c174;
 }
 
 

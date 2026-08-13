@@ -13,38 +13,162 @@ const removeImage = document.getElementById("removeImage");
 const uploadContent = document.getElementById("uploadContent");
 
 // ===============================
-// HIDE CLASSIFY NAV BEFORE LOGIN
+// AUTHENTICATION STATE
 // ===============================
 
-const classifyNav = document.getElementById("classifyNav");
+let isLoggedIn = false;
+let loggedInUser = null;
 
-if (classifyNav) {
 
-    const loggedIn = localStorage.getItem("loggedIn");
+// ===============================
+// CHECK LOGIN STATUS WITH FLASK
+// ===============================
 
-    if (loggedIn !== "true") {
-        classifyNav.style.display = "none";
+async function checkLoginStatus() {
+
+    try {
+
+        const response = await fetch("/auth-status");
+
+        const data = await response.json();
+
+        isLoggedIn = data.loggedIn;
+
+        if (data.loggedIn) {
+
+            loggedInUser = {
+                name: data.name,
+                email: data.email
+            };
+
+        } else {
+
+            loggedInUser = null;
+
+        }
+
+        updateAuthenticationUI();
+
+        return data.loggedIn;
+
+    } catch (error) {
+
+        console.error("Authentication check failed:", error);
+
+        isLoggedIn = false;
+        loggedInUser = null;
+
+        updateAuthenticationUI();
+
+        return false;
+
     }
 
 }
 
 // ===============================
-// LOGIN CHECK
+// UPDATE AUTHENTICATION UI
+// ===============================
+
+function updateAuthenticationUI() {
+
+    const classifyNav =
+        document.getElementById("classifyNav");
+
+    const uploadSection =
+        document.getElementById("classify");
+
+    const guestMenu =
+        document.getElementById("guestMenu");
+
+    const profileMenu =
+        document.getElementById("profileMenu");
+
+    const userName =
+        document.getElementById("userName");
+
+    const userEmail =
+        document.getElementById("userEmail");
+
+
+    // ===============================
+    // USER IS LOGGED IN
+    // ===============================
+
+    if (isLoggedIn) {
+
+        // Show Classify navigation
+        if (classifyNav) {
+            classifyNav.style.display = "";
+        }
+
+        // Show Classify section
+        if (uploadSection) {
+            uploadSection.classList.remove("hidden-upload");
+        }
+
+        // Show profile menu
+        if (guestMenu) {
+            guestMenu.style.display = "none";
+        }
+
+        if (profileMenu) {
+            profileMenu.style.display = "block";
+        }
+
+        // Display user information
+        if (loggedInUser) {
+
+            if (userName) {
+                userName.textContent = loggedInUser.name;
+            }
+
+            if (userEmail) {
+                userEmail.textContent = loggedInUser.email;
+            }
+
+        }
+
+    }
+
+
+    // ===============================
+    // USER IS NOT LOGGED IN
+    // ===============================
+
+    else {
+
+        // Hide Classify navigation
+        if (classifyNav) {
+            classifyNav.style.display = "none";
+        }
+
+        // Hide Classify section
+        if (uploadSection) {
+            uploadSection.classList.add("hidden-upload");
+        }
+
+        // Show guest menu
+        if (guestMenu) {
+            guestMenu.style.display = "block";
+        }
+
+        // Hide profile menu
+        if (profileMenu) {
+            profileMenu.style.display = "none";
+        }
+
+    }
+
+}
+
+// ===============================
+// CHECK LOGIN WHEN PAGE LOADS
 // ===============================
 
 document.addEventListener("DOMContentLoaded", () => {
 
-    const uploadSection = document.getElementById("classify");
-
-    if (localStorage.getItem("loggedIn") === "true") {
-
-        uploadSection.classList.remove("hidden-upload");
-
-    } else {
-
-        uploadSection.classList.add("hidden-upload");
-
-    }
+    checkLoginStatus();
 
 });
 
@@ -114,10 +238,16 @@ if (predictBtn) {
         // CHECK LOGIN
         // ===============================
 
-        if (localStorage.getItem("loggedIn") !== "true") {
+        const authenticated = await checkLoginStatus();
+
+        if (!authenticated) {
+
             alert("Please login first.");
-            window.location.href = "login.html";
+
+            window.location.href = "/login";
+
             return;
+
         }
 
         // ===============================
@@ -215,25 +345,39 @@ if (predictBtn) {
 // ===============================
 // CATEGORY POPUP
 // ===============================
+function showInfo(title, description, image) {
 
-function showInfo(title, text) {
+    const popup = document.getElementById("infoPopup");
 
-    document.getElementById("infoTitle").innerHTML = title;
+    if (!popup) {
+        console.error("infoPopup element not found!");
+        return;
+    }
 
-    document.getElementById("infoText").innerHTML = text;
+    popup.innerHTML = `
+        <div class="info-image">
+            <img src="${image}" alt="${title}">
+        </div>
 
-    document.getElementById("modalOverlay").classList.add("active");
+        <div class="info-content">
+            <h3>${title}</h3>
+            <p>${description}</p>
+        </div>
 
-    document.getElementById("infoBox").classList.add("active");
+        <button class="info-close" onclick="closeInfo()">×</button>
+    `;
 
+    popup.classList.add("show");
 }
+
 
 function closeInfo() {
 
-    document.getElementById("modalOverlay").classList.remove("active");
+    const popup = document.getElementById("infoPopup");
 
-    document.getElementById("infoBox").classList.remove("active");
-
+    if (popup) {
+        popup.classList.remove("show");
+    }
 }
 
 document.addEventListener("keydown", function (e) {
@@ -319,7 +463,7 @@ document.querySelectorAll("section").forEach(section => {
 
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 
-    anchor.addEventListener("click", function (e) {
+    anchor.addEventListener("click", async function (e) {
 
         const target = this.getAttribute("href");
 
@@ -328,7 +472,9 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 
             e.preventDefault();
 
-            if (localStorage.getItem("loggedIn") === "true") {
+            const authenticated = await checkLoginStatus();
+
+            if (authenticated) {
 
                 document.querySelector(target).scrollIntoView({
                     behavior: "smooth"
@@ -336,9 +482,11 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 
             } else {
 
-                alert("Please login or register to access the Waste Classifier.");
+                alert(
+                    "Please login or register to access the Waste Classifier."
+                );
 
-                window.location.href = "login.html";
+                window.location.href = "/login";
 
             }
 
@@ -356,82 +504,96 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 
 });
 
-const userBtn = document.getElementById("userBtn");
-const userDropdown = document.getElementById("userDropdown");
+// ===============================
+// USER DROPDOWN
+// ===============================
 
-const guestMenu = document.getElementById("guestMenu");
-const profileMenu = document.getElementById("profileMenu");
+const userBtn =
+    document.getElementById("userBtn");
 
-const user = JSON.parse(localStorage.getItem("loggedInUser"));
+const userDropdown =
+    document.getElementById("userDropdown");
 
-if(user){
+const logoutBtn =
+    document.getElementById("logoutBtn");
 
-    guestMenu.style.display="none";
-    profileMenu.style.display="block";
 
-    document.getElementById("userName").textContent=user.name;
-    document.getElementById("userEmail").textContent=user.email;
+if (userBtn && userDropdown) {
 
-}else{
+    userBtn.addEventListener("click", (e) => {
 
-    guestMenu.style.display="block";
-    profileMenu.style.display="none";
+        e.stopPropagation();
+
+        userDropdown.classList.toggle("show");
+
+    });
 
 }
 
-userBtn.addEventListener("click",(e)=>{
 
-    e.stopPropagation();
+document.addEventListener("click", () => {
 
-    userDropdown.classList.toggle("show");
+    if (userDropdown) {
 
-});
-
-document.addEventListener("click",()=>{
-
-    userDropdown.classList.remove("show");
-
-});
-
-document.getElementById("logoutBtn").addEventListener("click",()=>{
-
-    localStorage.removeItem("loggedIn");
-    localStorage.removeItem("loggedInUser");
-
-    location.reload();
-
-});
-
-
-const chooseImageBtn = document.getElementById("chooseImageBtn");
-
-chooseImageBtn.addEventListener("click", function () {
-
-    const loggedIn = localStorage.getItem("loggedIn");
-
-    if (loggedIn === "true") {
-
-        document.getElementById("fileInput").click();
-
-    } else {
-
-        window.location.href = "login.html";
+        userDropdown.classList.remove("show");
 
     }
 
 });
 
+
+// ===============================
+// LOGOUT
+// ===============================
+
+if (logoutBtn) {
+
+    logoutBtn.addEventListener("click", () => {
+
+        window.location.href = "/logout";
+
+    });
+
+}
+
+// ===============================
+// CHOOSE IMAGE BUTTON
+// ===============================
+
+const chooseImageBtn =
+    document.getElementById("chooseImageBtn");
+
+if (chooseImageBtn) {
+
+    chooseImageBtn.addEventListener("click", async function () {
+
+        const authenticated = await checkLoginStatus();
+
+        if (authenticated) {
+
+            document.getElementById("fileInput").click();
+
+        } else {
+
+            window.location.href = "/login";
+
+        }
+
+    });
+
+}
+
 const faqItems = document.querySelectorAll(".faq-item");
 
-faqItems.forEach(item=>{
+faqItems.forEach(item => {
 
-    const question=item.querySelector(".faq-question");
+    const question = item.querySelector(".faq-question");
 
-    question.addEventListener("click",()=>{
+    question.addEventListener("click", () => {
 
-        faqItems.forEach(faq=>{
+        faqItems.forEach(faq => {
 
-            if(faq!==item){
+            if (faq !== item) {
 
                 faq.classList.remove("active");
 

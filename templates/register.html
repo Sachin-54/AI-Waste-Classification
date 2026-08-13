@@ -7,7 +7,7 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Register | TerraSort</title>
+    <title>Register | Waste Classification</title>
 
     <link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">
 
@@ -24,63 +24,76 @@
 
     <div class="login-container">
 
-        <a href="index.html" class="back-btn">
+        <a href="{{ url_for('home') }}" class="back-btn">
             <i class="fa-solid fa-arrow-left"></i>
             Back to Home
         </a>
 
         <div class="login-card">
 
-            <img src="{{ url_for('static', filename='img/logo.png') }}" alt="TerraSort Logo">
+            <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Waste Classification Logo">
 
             <h1>Create Account</h1>
 
-            <p>Register to start using TerraSort.</p>
+            <p>Register to start using Waste Classification.</p>
 
-            <form id="registerForm">
+
+            <!-- ==========================================
+                 REGISTRATION FORM
+                 ========================================== -->
+
+            <form id="registerForm" method="POST" action="{{ url_for('register') }}">
+
+                <!-- NAME -->
 
                 <div class="input-box">
 
                     <i class="fa-solid fa-user input-icon"></i>
 
-                    <input type="text" id="name" placeholder="Full Name" required>
+                    <input type="text" id="name" name="name" placeholder="Full Name" required>
 
                 </div>
+
+
+                <!-- EMAIL -->
 
                 <div class="input-box">
 
                     <i class="fa-solid fa-envelope input-icon"></i>
 
-                    <input type="email" id="email" placeholder="Email Address" required>
+                    <input type="email" id="email" name="email" placeholder="Email Address" required>
 
                 </div>
+
+
+                <!-- PASSWORD -->
 
                 <div class="input-box">
 
                     <i class="fa-solid fa-lock input-icon"></i>
 
-                    <input type="password" id="password" placeholder="Password" required>
+                    <input type="password" id="password" name="password" placeholder="Password" required>
 
                     <i class="fa-solid fa-eye toggle-password" id="togglePassword"></i>
 
                 </div>
 
+
+                <!-- REGISTER BUTTON -->
+
                 <button type="submit">
-
                     Register
-
                 </button>
 
             </form>
+
 
             <div class="register">
 
                 Already have an account?
 
-                <a href="login.html">
-
+                <a href="{{ url_for('login') }}">
                     Login
-
                 </a>
 
             </div>
@@ -88,6 +101,7 @@
         </div>
 
     </div>
+
 
     <script src="{{ url_for('static', filename='js/auth.js') }}"></script>
 

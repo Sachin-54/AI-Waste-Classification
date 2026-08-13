@@ -1,9 +1,11 @@
 # ============================================================
 # TERRA SORT - AI WASTE CLASSIFICATION BACKEND
 # ============================================================
-
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, session, redirect, url_for
 from flask_cors import CORS
+
+import mysql.connector
+from mysql.connector import Error
 
 import os
 import uuid
@@ -12,6 +14,7 @@ import joblib
 
 from PIL import Image
 from werkzeug.utils import secure_filename
+from werkzeug.security import generate_password_hash, check_password_hash
 
 import tensorflow as tf
 from tensorflow.keras.applications import EfficientNetB0
@@ -23,6 +26,9 @@ from tensorflow.keras.applications.efficientnet import preprocess_input
 # ============================================================
 
 app = Flask(__name__)
+
+# Secret key for Flask sessions
+app.secret_key = "waste_classification_secret_key"
 
 # Allow frontend JavaScript to communicate with Flask
 CORS(app)
@@ -61,7 +67,7 @@ SCALER_PATH = "model/efficientnet_scaler.pkl"
 # ============================================================
 
 print("\n==========================================")
-print("Loading TerraSort ML Model...")
+print("Loading SortSense ML Model...")
 print("==========================================")
 
 try:
@@ -163,6 +169,30 @@ if scaler is not None:
 
 
 print("==========================================\n")
+
+# ============================================================
+# MYSQL DATABASE CONNECTION
+# ============================================================
+
+def get_db_connection():
+
+    try:
+
+        connection = mysql.connector.connect(
+            host="localhost",
+            user="root",
+            password="12345",
+            database="waste_classificaton"
+        )
+
+        return connection
+
+    except Error as e:
+
+        print("MySQL connection error:")
+        print(e)
+
+        return None
 
 
 # ============================================================
@@ -429,15 +459,177 @@ def home():
 # PAGE ROUTES
 # ============================================================
 
-@app.route("/login")
-@app.route("/login.html")
+# ============================================================
+# USER LOGIN
+# ============================================================
+
+@app.route("/login", methods=["GET", "POST"])
+@app.route("/login.html", methods=["GET", "POST"])
 def login():
+
+    if request.method == "POST":
+
+        email = request.form.get("email")
+        password = request.form.get("password")
+
+        # Check required fields
+        if not email or not password:
+            return "Email and password are required."
+
+        connection = get_db_connection()
+
+        if connection is None:
+            return "Database connection failed."
+
+        cursor = connection.cursor(dictionary=True)
+
+        try:
+
+            # Find user by email
+            cursor.execute(
+                "SELECT * FROM users WHERE email = %s",
+                (email,)
+            )
+
+            user = cursor.fetchone()
+
+            # Check user and password
+            if user and check_password_hash(
+                user["password"],
+                password
+            ):
+
+                # Store user information in Flask session
+                session["user_id"] = user["id"]
+                session["user_name"] = user["name"]
+                session["user_email"] = user["email"]
+
+                print("Login successful:", email)
+
+                # Go to home page
+                return redirect(url_for("home"))
+
+            else:
+
+                print("Invalid login:", email)
+
+                return "Invalid Email or Password."
+
+        except Error as e:
+
+            print("Login error:")
+            print(e)
+
+            return "Login failed."
+
+        finally:
+
+            cursor.close()
+            connection.close()
+
     return render_template("login.html")
 
 
-@app.route("/register")
-@app.route("/register.html")
+# ============================================================
+# CHECK LOGIN STATUS
+# ============================================================
+
+@app.route("/auth-status", methods=["GET"])
+def auth_status():
+
+    if "user_id" in session:
+
+        return jsonify({
+            "loggedIn": True,
+            "name": session.get("user_name"),
+            "email": session.get("user_email")
+        })
+
+    return jsonify({
+        "loggedIn": False
+    })
+
+# ============================================================
+# USER LOGOUT
+# ============================================================
+
+@app.route("/logout")
+def logout():
+
+    session.clear()
+
+    return redirect(url_for("home"))
+
+# ============================================================
+# USER REGISTRATION
+# ============================================================
+
+@app.route("/register", methods=["GET", "POST"])
+@app.route("/register.html", methods=["GET", "POST"])
 def register():
+
+    if request.method == "POST":
+
+        name = request.form.get("name")
+        email = request.form.get("email")
+        password = request.form.get("password")
+
+        # Check required fields
+        if not name or not email or not password:
+            return "All fields are required."
+
+        connection = get_db_connection()
+
+        if connection is None:
+            return "Database connection failed."
+
+        cursor = connection.cursor()
+
+        try:
+
+            # Check if email already exists
+            cursor.execute(
+                "SELECT id FROM users WHERE email = %s",
+                (email,)
+            )
+
+            existing_user = cursor.fetchone()
+
+            if existing_user:
+                return "Email already registered."
+
+            # Hash password before storing
+            hashed_password = generate_password_hash(password)
+
+            # Insert new user
+            cursor.execute(
+                """
+                INSERT INTO users (name, email, password)
+                VALUES (%s, %s, %s)
+                """,
+                (name, email, hashed_password)
+            )
+
+            connection.commit()
+
+            print("New user registered:", email)
+
+            return redirect(url_for("login"))
+
+        except Error as e:
+
+            connection.rollback()
+
+            print("Registration error:")
+            print(e)
+
+            return "Registration failed."
+
+        finally:
+
+            cursor.close()
+            connection.close()
+
     return render_template("register.html")
 
 
@@ -824,7 +1016,7 @@ if __name__ == "__main__":
 
     print("\n")
     print("==========================================")
-    print("        TERRASORT BACKEND")
+    print("        SortSense BACKEND")
     print("==========================================")
     print("Server starting...")
     print("URL: http://127.0.0.1:5000")
