@@ -446,6 +446,11 @@ def get_confidence(features):
 
 
 # ============================================================
+# PAGE ROUTES
+# ============================================================
+
+
+# ============================================================
 # HOME PAGE
 # ============================================================
 
@@ -454,10 +459,6 @@ def get_confidence(features):
 def home():
     return render_template("index.html")
 
-
-# ============================================================
-# PAGE ROUTES
-# ============================================================
 
 # ============================================================
 # USER LOGIN
@@ -971,6 +972,70 @@ def predict():
                 str(e)
 
         }), 500
+
+
+# ============================================================
+# CONTACT FORM
+# ============================================================
+
+@app.route("/contact", methods=["POST"])
+def contact():
+
+    # Get form data
+    email = request.form.get("email")
+    waste_type = request.form.get("waste_type")
+    message = request.form.get("message")
+
+    # Check that all fields were submitted
+    if not email or not waste_type or not message:
+
+        return "Please fill in all contact form fields.", 400
+
+    # Connect to MySQL
+    connection = get_db_connection()
+
+    if connection is None:
+
+        return "Database connection failed.", 500
+
+    cursor = connection.cursor()
+
+    try:
+
+        # Insert message into database
+        cursor.execute(
+            """
+            INSERT INTO contact_messages
+            (email, waste_type, message)
+            VALUES (%s, %s, %s)
+            """,
+            (email, waste_type, message)
+        )
+
+        # Save changes
+        connection.commit()
+
+        print("Contact message saved successfully.")
+        print("Email:", email)
+        print("Waste type:", waste_type)
+
+        # Return to Contact section
+        return redirect(url_for("home") + "#contact")
+
+    except Error as e:
+
+        # Undo changes if something goes wrong
+        connection.rollback()
+
+        print("Contact form database error:")
+        print(e)
+
+        return "Unable to save contact message.", 500
+
+    finally:
+
+        cursor.close()
+        connection.close()
 
 
 # ============================================================
