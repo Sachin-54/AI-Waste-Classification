@@ -242,7 +242,7 @@
                     <div class="mini-stat">
 
                         <div class="mini-stat-top">
-                            <span class="mini-icon india-icon">🇮🇳</span>
+                            <span class="mini-icon india-icon">IN</span>
                             <span class="mini-number blue-number">185K</span>
                         </div>
 
@@ -306,78 +306,115 @@
     </section>
 
 
-    <!-- ================= CLASSIFY ================= -->
+    <!-- ================= CLASSIFY SECTION ================= -->
 
     <section id="classify" class="upload-section hidden-upload">
 
-        <div class="upload-card">
+        <div class="classify-single-container">
 
-            <h1>Upload Waste Image</h1>
-
-            <p>
-
-                Select an image and let the AI identify the waste category.
-
-            </p>
-
-            <div class="upload-box">
-
-                <div id="uploadContent">
-
-                    <!-- <i class="fa-solid fa-cloud-arrow-up"></i> -->
-
-                    <h3>Drag & Drop Image Here</h3>
-
-                    <p>or</p>
-
-                    <input type="file" id="fileInput" accept="image/*" hidden>
-
-                    <!-- <button type="button" onclick="document.getElementById('fileInput').click()">
-                        Choose Image
-                    </button> -->
-
-                    <button type="button" id="chooseImageBtn">
-                        Choose Image
-                    </button>
-
-                    <p id="fileName">No file selected</p>
-                    <p style="font-size: 13px;">Upload a clear, well-lit photo of a single item. Supported formats: JPG,
-                        PNG, or
-                        WEBP — max size 5MB.</p>
-
-
+            <!-- 1. HEADER SECTION -->
+            <div class="classify-single-header">
+                <div class="hero-badge">
+                    <span class="badge-dot"></span>
+                    AI-POWERED INFERENCE
                 </div>
 
-                <div class="preview-container">
+                <h1 class="classify-title">
+                    Sort Waste with <span>Precision.</span>
+                </h1>
 
-                    <button type="button" id="removeImage" class="remove-image-btn"
-                        aria-label="Remove image">&times;</button>
+                <p class="classify-description">
+                    Upload an image of your item. Our SVM model analyzes the material characteristics to classify it into the right disposal stream.
+                </p>
+            </div>
 
-                    <img id="preview" alt="Preview">
+            <!-- 2. SMART TIPS ROW (ABOVE UPLOAD) -->
+            <div class="classify-tips-row">
 
+                <div class="tip-card">
+                    <div class="tip-icon-box">
+                        <i class="fa-solid fa-gear"></i>
+                    </div>
+                    <div class="tip-text">
+                        <strong>Clear Lighting</strong>
+                        <small>Capture in well-lit areas without heavy shadows.</small>
+                    </div>
+                </div>
+
+                <div class="tip-card">
+                    <div class="tip-icon-box">
+                        <i class="fa-solid fa-crosshairs"></i>
+                    </div>
+                    <div class="tip-text">
+                        <strong>Single Subject</strong>
+                        <small>Place one object in the center frame.</small>
+                    </div>
+                </div>
+
+                <div class="tip-card">
+                    <div class="tip-icon-box">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <div class="tip-text">
+                        <strong>Privacy First</strong>
+                        <small>Images are cleared immediately after processing.</small>
+                    </div>
                 </div>
 
             </div>
 
-            <button id="predictBtn" class="predict-btn">
+            <!-- 3. UPLOAD CARD -->
+            <div class="classify-upload-card">
 
-                Predict Waste Type
+                <div class="upload-box" id="dropzoneBox">
 
-            </button>
+                    <input type="file" id="fileInput" accept="image/png, image/jpeg, image/webp" hidden>
 
-            <div id="resultCard" class="result-card">
+                    <!-- Initial State -->
+                    <div id="uploadContent">
+                        <div class="upload-icon-circle">
+                            <i class="fa-solid fa-cloud-arrow-up"></i>
+                        </div>
 
-                <h2>Prediction</h2>
+                        <h3>Drag &amp; Drop Image Here</h3>
+                        <p class="sub-text">or choose from your device</p>
 
-                <h3 id="predictionText">-</h3>
+                        <button type="button" id="chooseImageBtn">
+                            <i class="fa-solid fa-folder-open"></i> Browse File
+                        </button>
+
+                        <p class="upload-hint">Supported: JPG, PNG, WEBP (Max 5MB)</p>
+                    </div>
+
+                    <!-- Preview State -->
+                    <div class="preview-container">
+                        <button type="button" id="removeImage" class="remove-image-btn" aria-label="Remove image">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                        <img id="preview" alt="Waste Preview">
+                        <div class="preview-meta">
+                            <p id="fileName">No file selected</p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Predict Button -->
+                <button id="predictBtn" class="predict-btn">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i> Predict Waste Type
+                </button>
+
+                <!-- Result Card -->
+                <div id="resultCard" class="result-card">
+                    <h2>Prediction Result</h2>
+                    <h3 id="predictionText">-</h3>
+                </div>
 
             </div>
 
         </div>
 
     </section>
-
-
 
     <!-- ================= ABOUT ================= -->
 
@@ -473,7 +510,7 @@
                         <div class="workflow-status">
 
                             <span></span>
-                            AI READY
+                            AI WORKFLOW
 
                         </div>
 

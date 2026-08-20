@@ -7,10 +7,7 @@
     <title>Login | SortSense</title>
 
     <link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">
-
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 </head>
 
@@ -18,82 +15,86 @@
 
     <div class="background"></div>
 
-    <div class="login-container">
+    <div class="auth-wrapper">
 
-        <a href="index.html" class="back-btn">
-            <i class="fa-solid fa-arrow-left"></i>
-            Back to Home
-        </a>
+        <!-- Form Column -->
+        <div class="auth-form-side">
+            <a href="{{ url_for('home') }}" class="back-btn">
+                <i class="fa-solid fa-arrow-left"></i> Back to Home
+            </a>
 
-        <div class="login-card">
+            <div class="brand-header">
+                <img src="{{ url_for('static', filename='img/logo.png') }}" alt="SortSense Logo">
+                <span>SortSense</span>
+            </div>
 
-            <img src="{{ url_for('static', filename='img/logo.png') }}" alt="SortSense Logo">
-
-            <h1>Welcome Back</h1>
-
-            <p>Login to continue using SortSense.</p>
+            <h1 class="auth-title">Welcome Back</h1>
+            <p class="auth-subtitle">Login to access your AI waste sorting dashboard.</p>
 
             <form id="loginForm" method="POST" action="{{ url_for('login') }}">
 
-                <div class="input-box">
-
+                <div class="input-group">
                     <i class="fa-solid fa-envelope input-icon"></i>
-
-                    <input type="email" id="email" name="email" placeholder="Your Email" required>
-
+                    <input type="email" class="input-field" id="email" name="email" placeholder="Your Email" required autocomplete="email">
                 </div>
 
-                <div class="input-box">
-
+                <div class="input-group">
                     <i class="fa-solid fa-lock input-icon"></i>
-
-                    <input type="password" id="password" name="password" placeholder="Your Password" required>
-
+                    <input type="password" class="input-field" id="password" name="password" placeholder="Your Password" required autocomplete="current-password">
                     <i class="fa-solid fa-eye toggle-password" id="togglePassword"></i>
-
                 </div>
 
-                <div class="options">
-
-                    <label>
-
-                        <input type="checkbox">
-
+                <div class="form-options">
+                    <label class="checkbox-label">
+                        <input type="checkbox" name="remember">
                         Remember Me
-
                     </label>
-
-                    <a href="forgot-password.html">
-
-                        Forgot Password?
-
-                    </a>
-
+                    <a href="{{ url_for('forgot_password') }}" class="forgot-link">Forgot Password?</a>
                 </div>
 
-                <button type="submit">
-
-                    Login
-
-                </button>
+                <button type="submit" class="submit-btn">Login</button>
 
             </form>
 
-            <div class="register">
+            <div class="auth-switch">
+                <span>New User?</span>
+                <a href="{{ url_for('register') }}">Create an Account</a>
+            </div>
+        </div>
 
-                <p>
-                    New User?
-                    <a href="register.html">Create an Account</a>
-                </p>
-
+        <!-- Visual/Stats Hero Column -->
+        <div class="auth-visual-side">
+            <div class="badge">
+                <span class="badge-dot"></span> AI-Powered Analytics
             </div>
 
+            <h2 style="color: #fff; font-size: 1.8rem; margin-bottom: 6px;">Global Waste Insight</h2>
+            <p style="color: #8fa099; font-size: 0.9rem; margin-bottom: 20px;">Join thousands sorting smarter to lower landfill emissions.</p>
+
+            <div class="hero-card">
+                <div class="hero-card-header">
+                    <div>
+                        <div class="stat-number">2.56<span>B</span></div>
+                        <div class="stat-label">Tonnes of municipal waste generated globally each year.</div>
+                    </div>
+                </div>
+
+                <div class="mini-stats-grid">
+                    <div class="mini-stat-card">
+                        <div class="mini-stat-val warning">33%</div>
+                        <div class="mini-stat-desc">Uncollected or openly dumped globally</div>
+                    </div>
+                    <div class="mini-stat-card">
+                        <div class="mini-stat-val">114K</div>
+                        <div class="mini-stat-desc">Tonnes/day processed via AI sorting</div>
+                    </div>
+                </div>
+            </div>
         </div>
 
     </div>
 
     <script src="{{ url_for('static', filename='js/auth.js') }}"></script>
-
 </body>
 
 </html>

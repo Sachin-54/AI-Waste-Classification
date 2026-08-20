@@ -1,11 +1,14 @@
+/* ==========================================
+   SORTSENSE AUTHENTICATION (DARK DASHBOARD)
+   ========================================== */
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-html,
-body {
+html, body {
     height: 100%;
 }
 
@@ -15,419 +18,349 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background: #f3f6f5;
-    overflow: hidden;
+    background-color: #0b120f;
+    color: #e2e8f0;
+    overflow-x: hidden;
     position: relative;
-    padding: 20px;
+    padding: 24px;
 }
 
-/* ===========================
-   BACKGROUND BLOBS
-=========================== */
-
+/* Ambient Background Lighting */
 .background::before,
 .background::after {
     content: "";
     position: absolute;
     border-radius: 50%;
-    filter: blur(120px);
-    z-index: -1;
+    filter: blur(160px);
+    z-index: 0;
+    pointer-events: none;
 }
 
 .background::before {
-    width: 350px;
-    height: 350px;
-    background: #d8f3ec;
-    top: -120px;
+    width: 500px;
+    height: 500px;
+    background: rgba(14, 159, 142, 0.15);
+    top: -100px;
     left: -100px;
 }
 
 .background::after {
-    width: 400px;
-    height: 400px;
-    background: #dfe7fd;
-    right: -120px;
-    bottom: -120px;
+    width: 550px;
+    height: 550px;
+    background: rgba(16, 56, 43, 0.25);
+    right: -100px;
+    bottom: -100px;
 }
 
-/* ===========================
-   LOGIN CONTAINER
-=========================== */
-
-.login-container {
+/* Layout Wrapper */
+.auth-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    max-width: 1100px;
     width: 100%;
-    max-width: 450px;
-    padding: 10px;
+    background: #111a16;
+    border-radius: 28px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
 }
 
-/* ===========================
-   BACK BUTTON
-=========================== */
+/* Left Section: Form Box */
+.auth-form-side {
+    padding: 48px 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
 
 .back-btn {
     display: inline-flex;
     align-items: center;
     gap: 8px;
     text-decoration: none;
-    color: #0e9f8e;
-    font-weight: 600;
-    margin-bottom: 16px;
+    color: #00ca99;
+    font-weight: 500;
+    font-size: 0.9rem;
+    margin-bottom: 32px;
+    transition: transform 0.2s ease, color 0.2s;
+    width: fit-content;
 }
 
 .back-btn:hover {
-    color: #0b7f71;
+    color: #34d399;
+    transform: translateX(-4px);
 }
 
-/* ===========================
-   CARD
-=========================== */
-
-.login-card {
-    background: white;
-    border-radius: 25px;
-    padding: 32px 30px;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, .08);
-    border: 1px solid rgba(0, 0, 0, .08);
-}
-
-.login-card img{
-    display: block;
-    width: 50px;
-    height: 50px;
-    margin: auto;
-}
-/* ===========================
-   LOGO
-=========================== */
-
-.logo {
-    width: 70px;
-    display: block;
-    margin: 0 auto 16px;
-}
-
-.login-card h1 {
-    text-align: center;
-    margin-bottom: 6px;
-    color: #1e2a32;
-    font-size: 1.6rem;
-}
-
-.login-card p {
-    text-align: center;
-    color: #666;
+.brand-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
     margin-bottom: 24px;
+}
+
+.brand-header img {
+    width: 42px;
+    height: 42px;
+    object-fit: contain;
+}
+
+.brand-header span {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: -0.5px;
+}
+
+.auth-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 8px;
+}
+
+.auth-subtitle {
+    color: #8fa099;
     font-size: 0.95rem;
+    margin-bottom: 32px;
 }
 
-#forgotEmail{
-     width: 100%;
-    height: 50px;
-    padding: 0 5px;
-    border: 1px solid #ddd;
-    border-radius: 12px;
-    outline: none;
-    font-size: 15px;
-    background: #fff;
-    transition: 0.3s;
-    margin-bottom: 15px;
-}
-
-/* ===========================
-   INPUTS - COMPLETELY FIXED
-=========================== */
-
-.input-box {
+/* Inputs */
+.input-group {
     position: relative;
-    width: 100%;
-    margin-bottom: 18px;
+    margin-bottom: 20px;
 }
 
-.input-box input {
+.input-field {
     width: 100%;
-    height: 50px;
-    padding: 0 45px;
-    border: 1px solid #ddd;
-    border-radius: 12px;
+    height: 52px;
+    background: #18241f;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 14px;
+    padding: 0 48px;
+    color: #ffffff;
+    font-size: 0.95rem;
     outline: none;
-    font-size: 15px;
-    background: #fff;
-    transition: 0.3s;
+    transition: all 0.3s ease;
 }
 
-.input-box input:focus {
-    border-color: #0e9f8e;
+.input-field::placeholder {
+    color: #556b62;
 }
 
-.input-box .input-icon,
-.input-box .toggle-password {
+.input-field:focus {
+    border-color: #00ca99;
+    background: #1d2c26;
+    box-shadow: 0 0 0 4px rgba(0, 202, 153, 0.15);
+}
+
+.input-icon,
+.toggle-password {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    font-size: 18px;
-    color: #888;
-    line-height: 1;
+    font-size: 1.1rem;
+    color: #556b62;
 }
 
-.input-box .input-icon {
-    left: 15px;
-    pointer-events: none;
+.input-icon {
+    left: 18px;
 }
 
-.input-box .toggle-password {
-    right: 15px;
+.toggle-password {
+    right: 18px;
     cursor: pointer;
+    transition: color 0.2s;
 }
 
-.input-box .toggle-password:hover {
-    color: #0b7f71;
+.toggle-password:hover {
+    color: #00ca99;
 }
 
-/* ===========================
-   OPTIONS
-=========================== */
-
-.options {
+/* Options */
+.form-options {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
-    font-size: 14px;
-    flex-wrap: wrap;
-    gap: 10px;
+    margin-bottom: 28px;
+    font-size: 0.88rem;
 }
 
-.options label {
+.checkbox-label {
     display: flex;
     align-items: center;
     gap: 8px;
+    color: #8fa099;
     cursor: pointer;
-    color: #555;
 }
 
-.options label input[type="checkbox"] {
-    width: 17px;
-    height: 17px;
+.checkbox-label input[type="checkbox"] {
+    accent-color: #00ca99;
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
     cursor: pointer;
-    accent-color: #0e9f8e;
 }
 
-.options a {
+.forgot-link {
+    color: #00ca99;
     text-decoration: none;
-    color: #0e9f8e;
-    white-space: nowrap;
+    font-weight: 500;
+    transition: color 0.2s;
 }
 
-.options a:hover {
+.forgot-link:hover {
+    color: #34d399;
     text-decoration: underline;
 }
 
-/* ===========================
-   BUTTON
-=========================== */
-
-button {
+/* Buttons */
+.submit-btn {
     width: 100%;
-    padding: 14px;
+    height: 52px;
     border: none;
     border-radius: 50px;
-    background: #0e9f8e;
-    color: white;
-    font-size: 16px;
+    background: #00ca99;
+    color: #08120e;
+    font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
-    transition: .3s;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 20px rgba(0, 202, 153, 0.25);
 }
 
-button:hover {
-    background: #0b7f71;
+.submit-btn:hover {
+    background: #00dba6;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 202, 153, 0.35);
 }
 
-/* ===========================
-   REGISTER
-=========================== */
-
-.register {
-    margin-top: 20px;
+.auth-switch {
+    margin-top: 28px;
     text-align: center;
-    font-size: 15px;
-    color: #555;
+    font-size: 0.9rem;
+    color: #8fa099;
 }
 
-.register a {
-    color: #0e9f8e;
+.auth-switch a {
+    color: #00ca99;
     text-decoration: none;
     font-weight: 600;
+    margin-left: 4px;
 }
 
-.register a:hover {
+.auth-switch a:hover {
     text-decoration: underline;
 }
 
-/* ===========================
-   RESPONSIVE
-=========================== */
-
-@media(max-width: 500px) {
-    body {
-        padding: 12px;
-    }
-
-    .login-container {
-        padding: 0;
-        max-width: 100%;
-    }
-
-    .login-card {
-        padding: 24px 18px;
-        border-radius: 20px;
-    }
-
-    .login-card h1 {
-        font-size: 1.4rem;
-    }
-
-    .login-card p {
-        font-size: 0.9rem;
-        margin-bottom: 20px;
-    }
-
-    .options {
-        flex-direction: column;
-        gap: 10px;
-        align-items: flex-start;
-        margin-bottom: 18px;
-    }
-
-    .logo {
-        width: 60px;
-        margin-bottom: 12px;
-    }
-
-    .input-box {
-        margin-bottom: 14px;
-    }
-
-    .input-box input {
-        padding: 12px 40px 12px 40px;
-        font-size: 14px;
-    }
-
-    .input-box .input-icon {
-        left: 14px;
-        font-size: 16px;
-    }
-
-    .input-box .toggle-password {
-        right: 14px;
-        font-size: 16px;
-    }
-
-    button {
-        padding: 13px;
-        font-size: 15px;
-    }
-
-    .register {
-        margin-top: 16px;
-        font-size: 14px;
-    }
-
-    .back-btn {
-        margin-bottom: 12px;
-        font-size: 0.9rem;
-    }
+/* Right Section: Data Widget Hero Side */
+.auth-visual-side {
+    background: linear-gradient(135deg, #15221d 0%, #0d1713 100%);
+    padding: 48px 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-left: 1px solid rgba(255, 255, 255, 0.05);
+    position: relative;
 }
 
-/* Extra small screens */
-@media(max-width: 400px) {
-    .login-card {
-        padding: 20px 14px;
-    }
-
-    .login-card h1 {
-        font-size: 1.2rem;
-    }
-
-    .login-card p {
-        font-size: 0.85rem;
-        margin-bottom: 16px;
-    }
-
-    .input-box input {
-        padding: 10px 36px 10px 36px;
-        font-size: 13px;
-    }
-
-    .input-box .input-icon {
-        left: 12px;
-        font-size: 14px;
-    }
-
-    .input-box .toggle-password {
-        right: 12px;
-        font-size: 14px;
-    }
-
-    .options {
-        font-size: 13px;
-    }
-
-    button {
-        padding: 12px;
-        font-size: 14px;
-    }
-
-    .register {
-        font-size: 13px;
-    }
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(0, 202, 153, 0.12);
+    border: 1px solid rgba(0, 202, 153, 0.25);
+    color: #00ca99;
+    padding: 6px 14px;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    width: fit-content;
+    margin-bottom: 20px;
 }
 
-/* For very short screens */
-@media(max-height: 700px) {
-    .login-card {
-        padding: 20px 20px;
+.badge-dot {
+    width: 6px;
+    height: 6px;
+    background: #00ca99;
+    border-radius: 50%;
+}
+
+.hero-card {
+    background: #182621;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
+    padding: 28px;
+    margin-top: 16px;
+}
+
+.hero-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 20px;
+}
+
+.stat-number {
+    font-size: 3.5rem;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1;
+}
+
+.stat-number span {
+    color: #00ca99;
+    font-size: 2rem;
+}
+
+.stat-label {
+    color: #8fa099;
+    font-size: 0.88rem;
+    margin-top: 10px;
+    line-height: 1.4;
+}
+
+.mini-stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 16px;
+}
+
+.mini-stat-card {
+    background: #131e1a;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 16px;
+    border-radius: 14px;
+}
+
+.mini-stat-val {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #00ca99;
+}
+
+.mini-stat-val.warning {
+    color: #ff5252;
+}
+
+.mini-stat-desc {
+    font-size: 0.75rem;
+    color: #8fa099;
+    margin-top: 4px;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .auth-wrapper {
+        grid-template-columns: 1fr;
+        max-width: 460px;
     }
 
-    .logo {
-        width: 50px;
-        margin-bottom: 10px;
-    }
-
-    .login-card h1 {
-        font-size: 1.3rem;
-        margin-bottom: 4px;
-    }
-
-    .login-card p {
-        margin-bottom: 16px;
-        font-size: 0.85rem;
-    }
-
-    .input-box {
-        margin-bottom: 12px;
-    }
-
-    .input-box input {
-        padding: 10px 40px 10px 40px;
-        font-size: 14px;
-    }
-
-    .options {
-        margin-bottom: 14px;
-    }
-
-    button {
-        padding: 11px;
-        font-size: 14px;
-    }
-
-    .register {
-        margin-top: 14px;
-        font-size: 13px;
-    }
-
-    .back-btn {
-        margin-bottom: 10px;
+    .auth-visual-side {
+        display: none;
     }
 }

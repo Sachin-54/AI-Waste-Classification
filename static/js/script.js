@@ -11,6 +11,130 @@ const predictionText = document.getElementById("predictionText");
 const previewContainer = document.querySelector(".preview-container");
 const removeImage = document.getElementById("removeImage");
 const uploadContent = document.getElementById("uploadContent");
+const dropzoneBox = document.getElementById("dropzoneBox");
+
+function processFile(file) {
+    if (!file) return;
+
+    // Validate file type
+    const validTypes = ["image/jpeg", "image/png", "image/webp", "image/jpg"];
+    if (!validTypes.includes(file.type)) {
+        alert("Please upload a valid image file (JPG, PNG, or WEBP).");
+        return;
+    }
+
+    // Validate file size (max 5MB)
+    if (file.size > 5 * 1024 * 1024) {
+        alert("File size exceeds 5MB limit.");
+        return;
+    }
+
+    if (fileName) {
+        fileName.textContent = file.name;
+    }
+
+    const reader = new FileReader();
+    reader.onload = function (e) {
+        if (preview) {
+            preview.src = e.target.result;
+        }
+        if (uploadContent) {
+            uploadContent.style.display = "none";
+        }
+        if (previewContainer) {
+            previewContainer.style.display = "block";
+        }
+    };
+    reader.readAsDataURL(file);
+}
+
+// 1. Handle File Input Change (Manual Selection)
+if (fileInput) {
+    fileInput.addEventListener("change", function () {
+        if (this.files && this.files.length > 0) {
+            processFile(this.files[0]);
+        }
+    });
+}
+
+// ===============================
+// DRAG & DROP SUPPORT
+// ===============================
+
+if (dropzoneBox) {
+
+    // Prevent browser from opening the dropped image
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+
+        dropzoneBox.addEventListener(eventName, (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+        });
+
+    });
+
+
+    // Add visual indicator when dragging over
+    ['dragenter', 'dragover'].forEach(eventName => {
+
+        dropzoneBox.addEventListener(eventName, () => {
+            dropzoneBox.classList.add("dragover");
+        });
+
+    });
+
+
+    // Remove visual indicator
+    ['dragleave', 'drop'].forEach(eventName => {
+
+        dropzoneBox.addEventListener(eventName, () => {
+            dropzoneBox.classList.remove("dragover");
+        });
+
+    });
+
+
+    // ===============================
+    // PROCESS DROPPED FILE
+    // ===============================
+
+    dropzoneBox.addEventListener("drop", (e) => {
+
+        const dt = e.dataTransfer;
+
+        if (!dt || !dt.files || dt.files.length === 0) {
+            return;
+        }
+
+        const droppedFile = dt.files[0];
+
+        // Make sure file input exists
+        if (!fileInput) {
+            console.error("fileInput not found!");
+            return;
+        }
+
+        // Put dropped file into the actual file input
+        try {
+
+            const dataTransfer = new DataTransfer();
+
+            dataTransfer.items.add(droppedFile);
+
+            fileInput.files = dataTransfer.files;
+
+        } catch (error) {
+
+            console.error("Could not assign dropped file:", error);
+
+        }
+
+        // Process image and show preview
+        processFile(droppedFile);
+
+    });
+
+}
 
 // ===============================
 // AUTHENTICATION STATE
