@@ -1966,6 +1966,7 @@ body.dark-mode .hero-feature small {
 .predict-btn:hover {
     transform: translateY(-2px);
     background: var(--violet-dark);
+
 }
 
 .predict-btn:disabled {
