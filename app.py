@@ -20,6 +20,10 @@ import tensorflow as tf
 from tensorflow.keras.applications import EfficientNetB0
 from tensorflow.keras.applications.efficientnet import preprocess_input
 
+from dotenv import load_dotenv
+
+load_dotenv()
+
 
 # ============================================================
 # FLASK CONFIGURATION
@@ -28,13 +32,17 @@ from tensorflow.keras.applications.efficientnet import preprocess_input
 app = Flask(__name__)
 
 # Secret key for Flask sessions
-app.secret_key = "waste_classification_secret_key"
+app.secret_key = os.getenv("SECRET_KEY")
 
 # Allow frontend JavaScript to communicate with Flask
 CORS(app)
 
 # Folder where uploaded images will be stored
-UPLOAD_FOLDER = "uploads"
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+UPLOAD_FOLDER = os.path.join(BASE_DIR, "uploads")
+
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 
@@ -53,13 +61,24 @@ ALLOWED_EXTENSIONS = {
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 
+
 # ============================================================
 # MODEL PATHS
 # ============================================================
 
-SVM_MODEL_PATH = "model/efficientnet_svm.pkl"
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-SCALER_PATH = "model/efficientnet_scaler.pkl"
+SVM_MODEL_PATH = os.path.join(
+    BASE_DIR,
+    "model",
+    "efficientnet_svm.pkl"
+)
+
+SCALER_PATH = os.path.join(
+    BASE_DIR,
+    "model",
+    "efficientnet_scaler.pkl"
+)
 
 
 # ============================================================
@@ -170,6 +189,7 @@ if scaler is not None:
 
 print("==========================================\n")
 
+
 # ============================================================
 # MYSQL DATABASE CONNECTION
 # ============================================================
@@ -179,10 +199,11 @@ def get_db_connection():
     try:
 
         connection = mysql.connector.connect(
-            host="localhost",
-            user="root",
-            password="12345",
-            database="waste_classificaton"
+            host=os.getenv("DB_HOST"),
+            user=os.getenv("DB_USER"),
+            password=os.getenv("DB_PASSWORD"),
+            database=os.getenv("DB_NAME"),
+            port=int(os.getenv("DB_PORT", 3306))
         )
 
         return connection
@@ -193,7 +214,6 @@ def get_db_connection():
         print(e)
 
         return None
-
 
 # ============================================================
 # CHECK FILE EXTENSION
